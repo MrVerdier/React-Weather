@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+* {
+  margin: 0;
+  padding: 0; 
+  box-sizing: border-box;
+}
+
+input {
+  outline: none;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgb(3, 2, 60, 0.3);
+  margin-bottom: 20px;
+}
+
+input:-internal-autofill-selected {
+  background: none;
+}
+
+body {
+  height: 100%;
+  min-height: 100vh;
+  background: linear-gradient(to top, #1a2c46, #305767, #5d8282, #96ada1, #d3d8c9);
+  background-repeat: no-repeat;
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2 {
+  margin-bottom: 10px;
+}
+
+.main-nav {
+  padding: 20px;
+  background: rgb(3, 2, 60, 0.7);
+  box-shadow: 0px 3px 4px rgba(0,0,0, 0.4);
+  position: fixed;
+  width: 100vw;
+}
+
+.main-nav ul, .sub-nav ul {
+  display: flex;
+}
+
+.main-nav ul div, .sub-nav ul div {
+  padding: 0 10px;
+}
+
+
+.main-nav ul div a, .sub-nav ul div a {
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-shadow: 0px 2px 6px rgba(0,0,0, .3);
+}
+
+.main-nav ul div a:hover, .sub-nav ul div a:hover {
+  transition: .2s;
+  color: #d5d5d5; 
+}
+
+.sub-nav {
+  width: 100%;
+  padding: 100px 20px 20px 20px;
+}
+
+.page {
+  padding: 100px 20px
+}
+
+.weather-box-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 10px;
+}
+
+.weather-box {
+  background: rgba(255, 255, 255, 0.329);
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0px 2px 6px rgba(0,0,0, 0.6);
+  padding: 10px;
+}
+
+.weather-box div:last-child hr {
+  display: none;
+}
+
+.weather-box-inner {
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+  justify-content: space-evenly;
+  height: 70px;
+}
+
+.weather-box-inner > * {
+  margin: 0 10px;
+}
+
+.weather-box-inner-current {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  text-transform: capitalize;
+}
+
+.weather-box-inner-current div {
+  margin-top: 20px;
+}
+
+.weather-box-inner-current div h2 {
+  font-size: 30px;
+} 
+
+.weather-box-inner img {
+  margin-left: -15px;
+}
+
+.weather-box-inner span {
+  font-weight: bold
+}
+
+.current-box, .forecast-box {
+  margin-bottom: 20px;
+}
+.wind-box {
+  display: flex; 
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wind-box span svg {
+  font-size: 60px;
+}
+
+@media screen and (min-width: 600px) {
+  #homepageContent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 50px;
+  }
+  .weather-box-inner-current div h2 {
+    font-size: 40px;
+  }
+}
