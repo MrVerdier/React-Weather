@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 export default class FiveDayWeather extends React.Component {
     constructor(props) {
         super(props);
@@ -36,6 +35,31 @@ export default class FiveDayWeather extends React.Component {
           }
       )
     }
+
+    
+    getWeather = async (e) => {
+      e.preventDefault()
+      let city = e.target.elements.city.value 
+     
+      
+      fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=e17ae4e6ebd942a7b4d387b014a9ce3e`)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            weather: result
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+    }
+
 
     groupBy = (list, keyGetter) => {
       const map = new Map();
@@ -81,8 +105,7 @@ export default class FiveDayWeather extends React.Component {
       //   console.log(grouped.get(dates))
       // })
 
-    // Days
-    // console.log(grouped.get(date.yyyymmdd(0)))
+    // Days - It is DRY I know....
     const day0 = grouped.get(date.yyyymmdd(0))
     const day1 = grouped.get(date.yyyymmdd(1))
     const day2 = grouped.get(date.yyyymmdd(2))
@@ -97,31 +120,35 @@ export default class FiveDayWeather extends React.Component {
           return <div>Loading...</div>;
         } else {
           return (
+            <div>
+              <h1>3-Day Forecast</h1>
+              <div className="weather-box forecast-box">
+                <span>Location: </span><h2> {meta.city.name} {meta.city.country}</h2>
+              </div>
+        
+
             <div id="forecastWeather"> 
-               <h1>3-Day Forecast</h1>
-                <div className="weather-box forecast-box">
-                  <span>Location: </span><h2> {meta.city.name} {meta.city.country}</h2>
-                </div>
-
-                <h3>{date.yyyymmdd(0)}</h3>
-                <div className="weather-box-container forecast-box">
-                  <div className="weather-box">
-                  {day0.map(days => ( 
-                    <div>
-                      {days.dt_txt.slice(11, 19)}
-                      {days.weather.map(details => (
-                        <div className="weather-box-inner">
-                          <img src={'http://openweathermap.org/img/wn/' + details.icon + '@2x.png'} alt=""></img>
-                          <h3>{details.description}</h3>
-                          <p>Temp:<br /><span>{days.main.temp}</span> &#8451;</p>
-                        </div>
-                      ))}
-                      <hr/>
+                <div className="forecast-container">
+                  <h3>{date.yyyymmdd(0)}</h3>
+                  <div className="weather-box-container forecast-box">
+                    <div className="weather-box">
+                    {day0.map(days => ( 
+                      <div>
+                        {days.dt_txt.slice(11, 19)}
+                        {days.weather.map(details => (
+                          <div className="weather-box-inner">
+                            <img src={'http://openweathermap.org/img/wn/' + details.icon + '@2x.png'} alt=""></img>
+                            <h3>{details.description}</h3>
+                            <p>Temp:<br /><span>{days.main.temp}</span> &#8451;</p>
+                          </div>
+                        ))}
+                        <hr/>
+                      </div>
+                    ))}
                     </div>
-                  ))}
                   </div>
-                </div>
-
+              </div>
+              <div className="forecast-container">
                 <h3>{date.yyyymmdd(1)}</h3>
                 <div className="weather-box-container forecast-box">
                   <div className="weather-box">
@@ -140,8 +167,9 @@ export default class FiveDayWeather extends React.Component {
                   ))}
                   </div>
                 </div>
+              </div>
 
-
+              <div className="forecast-container">
                 <h3>{date.yyyymmdd(2)}</h3>
                 <div className="weather-box-container forecast-box">
                   <div className="weather-box">
@@ -160,9 +188,9 @@ export default class FiveDayWeather extends React.Component {
                   ))}
                   </div>
                 </div>
-
-
+              </div>
             </div>
+          </div>
           );
         }
       }
