@@ -11,16 +11,37 @@ export default class CurrentWeather extends React.Component {
       this.state = {
         error: null,
         isLoaded: false,
+        city: undefined,
         weather: []
       };
     }
 
+  componentDidMount(){
+      fetch("http://api.openweathermap.org/data/2.5/weather?q=Copenhagen&units=metric&APPID=e17ae4e6ebd942a7b4d387b014a9ce3e")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            weather: result
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+    }
+    
 
-  componentDidMount() {
-
-    let cityName = 'Copenhagen'
-
-      fetch('http://api.openweathermap.org/data/2.5/weather?q=' + cityName + ',dk&units=metric&APPID=e17ae4e6ebd942a7b4d387b014a9ce3e')
+    getWeather = async (e) => {
+      e.preventDefault()
+      let city = e.target.elements.city.value 
+     
+      
+      fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=e17ae4e6ebd942a7b4d387b014a9ce3e`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -37,6 +58,7 @@ export default class CurrentWeather extends React.Component {
         }
       )
   }
+
 
   render() {
 
@@ -70,10 +92,14 @@ export default class CurrentWeather extends React.Component {
       if (error) {
         return <div>Error: {error.message}</div>;
       } else if (!isLoaded) {
-        return <div>Loading...</div>;
+        return <div>
+        <SearchBar getWeather={this.getWeather}/>
+        <div>Please Search</div>
+        </div>;
       } else {
         return (
           <div>
+          <SearchBar getWeather={this.getWeather}/>
             <div className="weather-box current-box">
               <span>Location: </span><h2>{weather.name} {weather.sys.country}</h2>
             </div>

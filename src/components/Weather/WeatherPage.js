@@ -24,7 +24,6 @@ export default class WeatherPage extends React.Component {
         </nav>
       </div>
       <div className="page">
-        <SearchBar />
         <Switch>
           <Route exact path="/" component={CurrentWeather}>
             <CurrentWeather /> 
